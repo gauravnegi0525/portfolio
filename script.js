@@ -14,22 +14,33 @@ mobileLinks.forEach(link => {
     });
 });
 
-// Form submission
-document.getElementById('contact-form').addEventListener('submit', function (event) {
-    event.preventDefault();
+// Contact form submission
+const contactForm = document.getElementById('contact-form');
+contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-    // Get form data
-    const formData = new FormData(event.target);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData);
 
-    // Show success message
-    alert(`Thank you ${name}! Your message has been received. I'll get back to you soon at ${email}.`);
+    try {
+        const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
 
-    // Reset form
-    event.target.reset();
+        if (response.ok) {
+            alert('Message sent successfully!');
+            contactForm.reset();
+        } else {
+            alert('Error sending message. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error sending message. Please try again.');
+    }
 });
 
 // Smooth scrolling for navigation links (desktop and mobile)
