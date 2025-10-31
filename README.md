@@ -17,6 +17,8 @@ author - Gaurav Singh Negi
 
 ## Setup Instructions
 
+### For Local Development:
+
 1. **Install Dependencies:**
    ```bash
    npm install
@@ -34,9 +36,27 @@ author - Gaurav Singh Negi
 4. **Access the Website:**
    - Open your browser and go to `http://localhost:3000`
 
+### For Hosting/Production:
+
+1. **Set up MongoDB Atlas:**
+   - Go to [MongoDB Atlas](https://www.mongodb.com/atlas)
+   - Create a free account and cluster
+   - Get your connection string
+
+2. **Update Environment Variables:**
+   - Set `MONGODB_URI` environment variable with your Atlas connection string
+   - Or replace the placeholder in `server.js` with your actual connection string
+
+3. **Deploy to hosting service:**
+   - Upload all files to your hosting provider
+   - Make sure Node.js is supported
+   - Set environment variables if needed
+
 ## Database Configuration
 
-The application connects to MongoDB at `mongodb://localhost:27017/portfolio`. You can change this in `server.js` if needed.
+- **Local Development**: Uses in-memory MongoDB (temporary)
+- **Production**: Connects to MongoDB Atlas (persistent cloud database)
+- Update the `MONGODB_URI` in `server.js` with your actual MongoDB connection string
 
 ## API Endpoints
 

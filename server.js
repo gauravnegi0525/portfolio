@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,26 +11,15 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Start in-memory MongoDB server
-async function startDatabase() {
-  const mongoServer = await MongoMemoryServer.create();
-  const mongoUri = mongoServer.getUri();
+// Connect to MongoDB Atlas (replace with your connection string)
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://gauravnegi0525:<db_password>@cluster0.bgvvl26.mongodb.net/?appName=Cluster0';
 
-  mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => console.log('In-memory MongoDB connected'))
-  .catch(err => console.log('MongoDB connection error:', err));
-
-  return mongoServer;
-}
-
-// Initialize database
-let mongoServer;
-startDatabase().then(server => {
-  mongoServer = server;
-});
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB Atlas connected'))
+.catch(err => console.log('MongoDB connection error:', err));
 
 // Define Contact Schema
 const contactSchema = new mongoose.Schema({
